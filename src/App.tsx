@@ -1,64 +1,79 @@
 import { useState } from "react";
-import { useProducts } from "./hooks/useProducts";
-import { useDebounce } from "./hooks/useDebounce";
+import { Button, Input, Badge, Rating, Spinner } from "./components/ui";
 
 function App() {
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(0);
-  const debouncedSearch = useDebounce(search, 500);
-
-  const { data, loading, error } = useProducts({
-    limit: 5,
-    skip: page * 5,
-    query: debouncedSearch || undefined,
-  });
+  const [loading, setLoading] = useState(false);
 
   return (
-    <div className="p-8 space-y-4">
-      <h1 className="text-2xl font-bold">تست هوک‌ها</h1>
+    <div className="p-8 space-y-6 max-w-md mx-auto">
+      <h1 className="text-2xl font-bold">تست کامپوننت‌های UI</h1>
 
-      <input
-        type="text"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="جستجوی محصول..."
-        className="border p-2 rounded w-full"
-      />
+      <div className="space-y-2">
+        <h2 className="font-semibold">دکمه‌ها</h2>
+        <div className="flex flex-wrap gap-2">
+          <Button variant="primary">اصلی</Button>
+          <Button variant="secondary">ثانویه</Button>
+          <Button variant="outline">خطی</Button>
+          <Button variant="danger">خطر</Button>
+        </div>
 
-      {loading && <p>⏳ در حال بارگذاری...</p>}
-      {error && <p className="text-red-500">❌ {error}</p>}
+        <Button size="sm">کوچک</Button>
+        <Button size="lg">بزرگ</Button>
+        <Button fullWidth>تمام عرض</Button>
 
-      {data && (
-        <>
-          <p className="text-sm text-gray-500">
-            مجموع نتایج: {data.total}
-          </p>
-          <ul className="space-y-1">
-            {data.products.map((p) => (
-              <li key={p.id}>
-                {p.title} — ${p.price}
-              </li>
-            ))}
-          </ul>
+        <Button
+          isLoading={loading}
+          onClick={() => {
+            setLoading(true);
+            setTimeout(() => setLoading(false), 2000);
+          }}
+        >
+          {loading ? "لطفاً صبر کنید" : "کلیک کن"}
+        </Button>
+      </div>
 
-          <div className="flex gap-2">
-            <button
-              onClick={() => setPage((p) => Math.max(0, p - 1))}
-              disabled={page === 0}
-              className="border px-3 py-1 rounded disabled:opacity-50"
-            >
-              قبلی
-            </button>
-            <button
-              onClick={() => setPage((p) => p + 1)}
-              disabled={data && (page + 1) * 5 >= data.total}
-              className="border px-3 py-1 rounded disabled:opacity-50"
-            >
-              بعدی
-            </button>
-          </div>
-        </>
-      )}
+      <div className="space-y-2">
+        <h2 className="font-semibold">اینپوت‌ها</h2>
+        <Input label="نام" name="name" placeholder="نامت رو وارد کن" />
+        <Input
+          label="ایمیل"
+          name="email"
+          placeholder="test@example.com"
+          error="ایمیل نامعتبر است"
+        />
+        <Input
+          label="رمز عبور"
+          name="password"
+          helperText="حداقل ۸ کاراکتر"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <h2 className="font-semibold">بج‌ها</h2>
+        <div className="flex flex-wrap gap-2">
+          <Badge>پیش‌فرض</Badge>
+          <Badge variant="success">موجود</Badge>
+          <Badge variant="warning">۵٪ تخفیف</Badge>
+          <Badge variant="danger">ناموجود</Badge>
+          <Badge variant="info">جدید</Badge>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <h2 className="font-semibold">امتیازها</h2>
+        <Rating value={4.5} showValue />
+        <Rating value={3} showValue size="sm" />
+        <Rating value={5} />
+      </div>
+
+      <div className="space-y-2">
+        <h2 className="font-semibold">Spinner</h2>
+        <div className="flex gap-4 items-center">
+          <Spinner size="sm" />
+          <Spinner size="md" />
+          <Spinner size="lg" />
+        </div>
+      </div>
     </div>
   );
 }
