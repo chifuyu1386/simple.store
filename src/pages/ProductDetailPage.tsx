@@ -21,12 +21,14 @@ import {
   Rating,
 } from "../components/ui";
 import { formatPrice } from "../utils/formatPrice";
+import { useCart } from "../context/CartContext";
 
 export function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { data: product, loading, error } = useProduct(id);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const {addItem} = useCart();
 
   if (loading) return <FullPageSpinner />;
 
@@ -56,8 +58,8 @@ export function ProductDetailPage() {
   const isLowStock = product.stock > 0 && product.stock <= 10;
 
   const handleAddToCart = () => {
-    // TODO: در فاز سبد خرید وصل می‌شه
-    console.log("افزودن به سبد:", { productId: product.id, quantity });
+    if (!product) return;
+    addItem(product, quantity);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };

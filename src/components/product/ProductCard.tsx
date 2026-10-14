@@ -3,6 +3,9 @@ import { ShoppingCart } from "lucide-react";
 import type { Product } from "../../types/product";
 import { Badge, Button, Rating } from "../ui";
 import { formatPrice } from "../../utils/formatPrice";
+import { useCart } from "../../context/CartContext";
+import { Check } from "lucide-react";
+import { useState } from "react";
 
 interface ProductCardProps {
   product: Product;
@@ -13,6 +16,16 @@ export function ProductCard({ product }: ProductCardProps) {
 
   const isLowStock = product.stock > 0 && product.stock <= 10;
   const isOutOfStock = product.stock === 0;
+
+  const { addItem } = useCart();
+  const [added, setAdded] = useState(false);
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    addItem(product, 1);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
 
   return (
     <div className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
@@ -75,20 +88,28 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* دکمه */}
-        <Button
-          variant={isOutOfStock ? "secondary" : "primary"}
-          size="sm"
-          fullWidth
-          disabled={isOutOfStock}
-          className="mt-2"
-          onClick={(e) => {
-            e.preventDefault();
-            console.log("افزودن به سبد:", { productId: product.id, quantity: 1 });
-          }}
-        >
+          <Button
+            variant={isOutOfStock ? "secondary" : added ? "secondary" : "primary"}
+            size="sm"
+            fullWidth
+            disabled={isOutOfStock}
+            className="mt-2"
+            onClick={handleAddToCart}
+          >
+            {added ? (
+              <>
+                <Check className="h-4 w-4" />
+                اضافه شد
+              </>
+            ) : (
+              <>
+                <ShoppingCart className="h-4 w-4" />
+                {isOutOfStock ? "ناموجود" : "افزودن به سبد"}
+              </>
+            )}
+          </Button>
           <ShoppingCart className="h-4 w-4" />
           {isOutOfStock ? "ناموجود" : "افزودن به سبد"}
-        </Button>
       </div>
     </div>
   );

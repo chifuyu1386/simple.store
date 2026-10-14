@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { ShoppingCart, Menu, X, Store } from "lucide-react";
+import { useCart } from "../../context/CartContext";
 import { APP_NAME, NAV_LINKS } from "../../utils/constants";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const {itemCount} = useCart();
   const closeMenu = () => setIsMobileMenuOpen(false);
 
   return (
@@ -51,9 +52,11 @@ export function Header() {
               className="relative p-2 rounded-xl text-gray-700 hover:bg-gray-100 transition-colors"
             >
               <ShoppingCart className="h-6 w-6" />
-              <span className="absolute top-0 left-0 inline-flex items-center justify-center h-5 min-w-5 px-1 text-xs font-bold text-white bg-blue-600 rounded-full">
-                0
-              </span>
+                {itemCount > 0 && (
+                  <span className="absolute top-0 left-0 inline-flex items-center justify-center h-5 min-w-5 px-1 text-xs font-bold text-white bg-blue-600 rounded-full">
+                    {itemCount.toLocaleString("fa-IR")}
+                  </span>
+                )}
             </Link>
 
             {/* دکمه منو موبایل */}
