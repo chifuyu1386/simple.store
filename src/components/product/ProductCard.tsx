@@ -81,6 +81,10 @@ export function ProductCard({ product }: ProductCardProps) {
           fullWidth
           disabled={isOutOfStock}
           className="mt-2"
+          onClick={(e) => {
+            e.preventDefault();
+            console.log("افزودن به سبد:", { productId: product.id, quantity: 1 });
+          }}
         >
           <ShoppingCart className="h-4 w-4" />
           {isOutOfStock ? "ناموجود" : "افزودن به سبد"}

@@ -39,15 +39,6 @@ export function Footer() {
               ))}
             </ul>
           </div>
-
-          {/* اطلاعات */}
-          <div>
-            <h3 className="font-semibold text-gray-900 mb-3">ارتباط با ما</h3>
-            <ul className="space-y-2 text-sm text-gray-600">
-              <li>ایمیل: info@simplestore.com</li>
-              <li>تلفن: ۰۲۱-۱۲۳۴۵۶۷۸</li>
-            </ul>
-          </div>
         </div>
 
         {/* کپی‌رایت */}
