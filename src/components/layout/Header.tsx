@@ -1,13 +1,23 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { ShoppingCart, Menu, X, Store } from "lucide-react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { ShoppingCart, Menu, X, Store, LogIn, LogOut, User as UserIcon } from "lucide-react";
 import { useCart } from "../../context/CartContext";
 import { APP_NAME, NAV_LINKS } from "../../utils/constants";
+import { useAuth } from "../../context/AuthContext";
+
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const {itemCount} = useCart();
+  const { user, isAuthenticated, logout} = useAuth()
   const closeMenu = () => setIsMobileMenuOpen(false);
+  const navigate = useNavigate
+
+  const handleLogout = () => {
+    logout()
+    closeMenu()
+    navigate("/")
+  }
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
@@ -59,6 +69,40 @@ export function Header() {
                 )}
             </Link>
 
+            {/* کاربر */}
+            {isAuthenticated && user ? (
+              <div className="hidden md:flex items-center gap-2">
+                <Link
+                  to="/profile"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl hover:bg-gray-100 transition-colors"
+                >
+                  <img
+                    src={user.image}
+                    alt={user.firstName}
+                    className="w-7 h-7 rounded-full object-cover"
+                  />
+                  <span className="text-sm font-medium text-gray-700">
+                    {user.firstName}
+                  </span>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  aria-label="خروج"
+                  className="p-2 rounded-xl text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors"
+                >
+                  <LogOut className="h-5 w-5" />
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-blue-600 hover:bg-blue-50 transition-colors"
+              >
+                <LogIn className="h-4 w-4" />
+                ورود
+              </Link>
+            )}
+
             {/* دکمه منو موبایل */}
             <button
               type="button"
@@ -97,6 +141,41 @@ export function Header() {
                 {link.label}
               </NavLink>
             ))}
+
+            <div className="pt-2 border-t border-gray-200 mt-2">
+            {isAuthenticated && user ? (
+              <>
+                <Link
+                  to="/profile"
+                  onClick={closeMenu}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <img
+                    src={user.image}
+                    alt={user.firstName}
+                    className="w-6 h-6 rounded-full object-cover"
+                  />
+                  <span>پروفایل من</span>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-red-600 hover:bg-red-50"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span>خروج</span>
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                onClick={closeMenu}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-blue-600 hover:bg-blue-50"
+              >
+                <LogIn className="h-4 w-4" />
+                <span>ورود به حساب</span>
+              </Link>
+            )}
+          </div>
           </div>
         </nav>
       )}

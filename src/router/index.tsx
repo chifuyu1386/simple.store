@@ -6,6 +6,9 @@ import { NotFoundPage } from "../pages/NotFoundPage";
 import { ErrorPage } from "../pages/ErrorPage";
 import { ProductDetailPage } from "../pages/ProductDetailPage";
 import { CartPage } from "../pages/CartPage";
+import { LoginPage } from "../pages/LoginPage";
+import { ProtectedRoute } from "../components/auth/ProtectedRoute";
+import { ProfilePage } from "../pages/ProfilePage";
 
 export const router = createBrowserRouter([
   {
@@ -17,7 +20,16 @@ export const router = createBrowserRouter([
       { path: "products", element: <ProductsPage /> },
       { path: "products/:id", element: <ProductDetailPage/>},
       { path: "*", element: <NotFoundPage/> },
-      { path: "cart", element: <CartPage/>}
+      { path: "cart", element: <CartPage/>},
+      { path: "login", element: <LoginPage />},
+      {
+        path: "profile",
+        element: (
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        )
+      }
     ]
   }
 ])
