@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { ShoppingCart, Menu, X, Store, LogIn, LogOut, User as UserIcon } from "lucide-react";
+import { ShoppingCart, Menu, X, Store, LogIn, LogOut} from "lucide-react";
 import { useCart } from "../../context/CartContext";
 import { APP_NAME, NAV_LINKS } from "../../utils/constants";
 import { useAuth } from "../../context/AuthContext";
