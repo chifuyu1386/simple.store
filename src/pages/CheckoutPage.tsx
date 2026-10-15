@@ -15,7 +15,6 @@ import { CheckoutSteps } from "../components/checkout/CheckoutSteps";
 import { ShippingForm } from "../components/checkout/ShippingForm";
 import { PaymentForm } from "../components/checkout/PaymentForm";
 import { ReviewOrder } from "../components/checkout/ReviewOrder";
-import { CartSummary } from "../components/cart/CartSummary";
 import { Button } from "../components/ui";
 import type { PaymentInfo, ShippingAddress } from "../types/checkout";
 

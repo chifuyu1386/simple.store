@@ -16,7 +16,7 @@ export function Header() {
   const handleLogout = () => {
     logout()
     closeMenu()
-    navigate("/")
+    navigate()
   }
 
   return (

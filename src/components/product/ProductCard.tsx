@@ -14,7 +14,7 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const discountedPrice = product.price * (1 - product.discountPercentage / 100);
 
-  const isLowStock = product.stock > 0 && product.stock <= 10;
+
   const isOutOfStock = product.stock === 0;
 
   const { addItem } = useCart();
