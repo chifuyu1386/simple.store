@@ -11,6 +11,7 @@ import { ProtectedRoute } from "../components/auth/ProtectedRoute";
 import { ProfilePage } from "../pages/ProfilePage";
 import { CheckoutPage } from "../pages/CheckoutPage";
 import { OrderSuccessPage } from "../pages/OrderSuccessPage";
+import { AboutPage } from "../pages/AboutPage";
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ export const router = createBrowserRouter([
       {
         path: "order-success",
         element: <OrderSuccessPage/>
+      },
+      {
+        path: "About",
+        element: <AboutPage/>
       }
     ]
   }
