@@ -108,8 +108,6 @@ export function ProductCard({ product }: ProductCardProps) {
               </>
             )}
           </Button>
-          <ShoppingCart className="h-4 w-4" />
-          {isOutOfStock ? "ناموجود" : "افزودن به سبد"}
       </div>
     </div>
   );

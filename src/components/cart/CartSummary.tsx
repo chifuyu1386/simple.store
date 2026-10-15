@@ -4,6 +4,7 @@ import { ArrowLeft, Tag, Truck } from "lucide-react";
 import { useCart } from "../../context/CartContext";
 import { Button, Input } from "../ui";
 import { formatPrice } from "../../utils/formatPrice";
+import { useAuth } from "../../context/AuthContext";
 
 const SHIPPING_COST = 10;
 const FREE_SHIPPING_THRESHOLD = 100;
@@ -12,6 +13,7 @@ export function CartSummary() {
   const { subtotal, savings, itemCount } = useCart();
   const [discountCode, setDiscountCode] = useState("");
   const [appliedDiscount, setAppliedDiscount] = useState(0);
+  const { isAuthenticated } = useAuth();
 
   const shipping =
     subtotal >= FREE_SHIPPING_THRESHOLD || subtotal === 0 ? 0 : SHIPPING_COST;
@@ -100,16 +102,16 @@ export function CartSummary() {
         </span>
       </div>
 
-      <Link to="/checkout">
+      <Link to={isAuthenticated ? "/checkout" : "/login"} >
         <Button size="lg" fullWidth>
-          ادامه فرآیند خرید
+          {isAuthenticated ? "ادامه فرآیند خرید" : "ورود برای تسویه"}
           <ArrowLeft className="h-5 w-5" />
         </Button>
       </Link>
 
       <Link
         to="/products"
-        className="block text-center text-sm text-blue-600 hover:underline"
+        className="block text-center text-sm text-blue-600 hover:underline mt-3"
       >
         ادامه خرید
       </Link>
